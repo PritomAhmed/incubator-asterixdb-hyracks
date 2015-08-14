@@ -18,10 +18,7 @@
  */
 package org.apache.hyracks.control.cc;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -289,35 +286,48 @@ public class NodeControllerState {
         o.put("boot-classpath", bootClasspath);
         o.put("input-arguments", new JSONArray(inputArguments));
         o.put("rrd-ptr", rrdPtr);
-        o.put("heartbeat-times", hbTime);
-        o.put("heap-init-sizes", heapInitSize);
-        o.put("heap-used-sizes", heapUsedSize);
-        o.put("heap-committed-sizes", heapCommittedSize);
-        o.put("heap-max-sizes", heapMaxSize);
-        o.put("nonheap-init-sizes", nonheapInitSize);
-        o.put("nonheap-used-sizes", nonheapUsedSize);
-        o.put("nonheap-committed-sizes", nonheapCommittedSize);
-        o.put("nonheap-max-sizes", nonheapMaxSize);
-        o.put("thread-counts", threadCount);
-        o.put("peak-thread-counts", peakThreadCount);
-        o.put("system-load-averages", systemLoadAverage);
-        o.put("gc-names", gcNames);
-        o.put("gc-collection-counts", gcCollectionCounts);
-        o.put("gc-collection-times", gcCollectionTimes);
-        o.put("net-payload-bytes-read", netPayloadBytesRead);
-        o.put("net-payload-bytes-written", netPayloadBytesWritten);
-        o.put("net-signaling-bytes-read", netSignalingBytesRead);
-        o.put("net-signaling-bytes-written", netSignalingBytesWritten);
-        o.put("dataset-net-payload-bytes-read", datasetNetPayloadBytesRead);
-        o.put("dataset-net-payload-bytes-written", datasetNetPayloadBytesWritten);
-        o.put("dataset-net-signaling-bytes-read", datasetNetSignalingBytesRead);
-        o.put("dataset-net-signaling-bytes-written", datasetNetSignalingBytesWritten);
-        o.put("ipc-messages-sent", ipcMessagesSent);
-        o.put("ipc-message-bytes-sent", ipcMessageBytesSent);
-        o.put("ipc-messages-received", ipcMessagesReceived);
-        o.put("ipc-message-bytes-received", ipcMessageBytesReceived);
-        o.put("disk-reads", diskReads);
-        o.put("disk-writes", diskWrites);
+        o.put("heartbeat-times", Arrays.copyOfRange(hbTime, 0, rrdPtr));
+        o.put("heap-init-sizes", Arrays.copyOfRange(heapInitSize, 0, rrdPtr));
+        o.put("heap-used-sizes", Arrays.copyOfRange(heapUsedSize, 0, rrdPtr));
+        o.put("heap-committed-sizes", Arrays.copyOfRange(heapCommittedSize, 0, rrdPtr));
+        o.put("heap-max-sizes", Arrays.copyOfRange(heapMaxSize, 0, rrdPtr));
+        o.put("nonheap-init-sizes", Arrays.copyOfRange(nonheapInitSize, 0, rrdPtr));
+        o.put("nonheap-used-sizes", Arrays.copyOfRange(nonheapUsedSize, 0, rrdPtr));
+        o.put("nonheap-committed-sizes", Arrays.copyOfRange(nonheapCommittedSize, 0, rrdPtr));
+        o.put("nonheap-max-sizes", Arrays.copyOfRange(nonheapMaxSize, 0, rrdPtr));
+        o.put("thread-counts", Arrays.copyOfRange(threadCount, 0, rrdPtr));
+        o.put("peak-thread-counts", Arrays.copyOfRange(peakThreadCount, 0, rrdPtr));
+        o.put("system-load-averages", Arrays.copyOfRange(systemLoadAverage, 0, rrdPtr));
+        o.put("gc-names", Arrays.copyOfRange(gcNames, 0, rrdPtr));
+
+
+
+        int gcN = hbSchema.getGarbageCollectorInfos().length;
+        long[][] tempGccCollectionCounts = new long[gcN][rrdPtr];
+        long[][] tempGccCollectionTimes = new long[gcN][rrdPtr];
+        for (int i = 0; i < gcN; ++i) {
+            for (int j = 0; j< rrdPtr; j++) {
+                tempGccCollectionCounts[i][j] = gcCollectionCounts[i][j];
+                tempGccCollectionTimes[i][j] = gcCollectionTimes[i][j];
+            }
+        }
+        o.put("gc-collection-counts", Arrays.copyOfRange(tempGccCollectionCounts, 0, gcN));
+        o.put("gc-collection-times", Arrays.copyOfRange(tempGccCollectionTimes, 0, gcN));
+
+        o.put("net-payload-bytes-read", Arrays.copyOfRange(netPayloadBytesRead, 0, rrdPtr));
+        o.put("net-payload-bytes-written", Arrays.copyOfRange(netPayloadBytesWritten, 0, rrdPtr));
+        o.put("net-signaling-bytes-read", Arrays.copyOfRange(netSignalingBytesRead, 0, rrdPtr));
+        o.put("net-signaling-bytes-written", Arrays.copyOfRange(netSignalingBytesWritten, 0, rrdPtr));
+        o.put("dataset-net-payload-bytes-read", Arrays.copyOfRange(datasetNetPayloadBytesRead, 0, rrdPtr));
+        o.put("dataset-net-payload-bytes-written", Arrays.copyOfRange(datasetNetPayloadBytesWritten, 0, rrdPtr));
+        o.put("dataset-net-signaling-bytes-read", Arrays.copyOfRange(datasetNetSignalingBytesRead, 0, rrdPtr));
+        o.put("dataset-net-signaling-bytes-written", Arrays.copyOfRange(datasetNetSignalingBytesWritten, 0, rrdPtr));
+        o.put("ipc-messages-sent", Arrays.copyOfRange(ipcMessagesSent, 0, rrdPtr));
+        o.put("ipc-message-bytes-sent", Arrays.copyOfRange(ipcMessageBytesSent, 0, rrdPtr));
+        o.put("ipc-messages-received", Arrays.copyOfRange(ipcMessagesReceived, 0, rrdPtr));
+        o.put("ipc-message-bytes-received", Arrays.copyOfRange(ipcMessageBytesReceived, 0, rrdPtr));
+        o.put("disk-reads", Arrays.copyOfRange(diskReads, 0, rrdPtr));
+        o.put("disk-writes", Arrays.copyOfRange(diskWrites, 0, rrdPtr));
 
         return o;
     }
