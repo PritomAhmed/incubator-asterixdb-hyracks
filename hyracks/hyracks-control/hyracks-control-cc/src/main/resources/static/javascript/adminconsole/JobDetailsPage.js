@@ -94,7 +94,8 @@
     }
 
     function init() {
-        fetchJobSpecification();
+//        fetchJobSpecification();
+          fetchJobActivityGraph();
     }
 
     jsPlumb.bind("ready", function() {

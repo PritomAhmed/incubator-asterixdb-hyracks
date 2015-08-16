@@ -1,0 +1,10 @@
+diff a/hyracks/hyracks-control/hyracks-control-cc/src/main/resources/static/javascript/adminconsole/JobDetailsPage.js b/hyracks/hyracks-control/hyracks-control-cc/src/main/resources/static/javascript/adminconsole/JobDetailsPage.js	(rejected hunks)
+@@ -13,6 +13,8 @@
+   limitations under the License.
+  */
+  $(function() {
++    $('#tabs').tabs();
++
+     var jobSpecDAG = new Graphs.DAG();
+     var jobSpecRenderer;
+ 

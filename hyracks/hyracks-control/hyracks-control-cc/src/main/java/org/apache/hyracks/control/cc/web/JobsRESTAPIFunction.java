@@ -62,9 +62,6 @@ public class JobsRESTAPIFunction implements IJSONOutputFunction {
                 } else if ("job-summaries".equalsIgnoreCase(arguments[0])) { //Shown in index page of adminconsole
                     GetJobSummariesJSONWork gjse = new GetJobSummariesJSONWork(ccs);
                     ccs.getWorkQueue().scheduleAndSync(gjse);
-                    /*for (int i = 0; i < gjse.getSummaries().length(); i++) {
-                        result.put("result" + i, gjse.getSummaries().getJSONObject(i));
-                    }*/
                     result.put("result", gjse.getSummaries()); /* JSONArray */
                 }
 
