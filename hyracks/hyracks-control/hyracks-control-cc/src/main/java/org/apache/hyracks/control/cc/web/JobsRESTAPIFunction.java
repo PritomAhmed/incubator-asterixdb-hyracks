@@ -18,13 +18,14 @@
  */
 package org.apache.hyracks.control.cc.web;
 
+import org.json.JSONObject;
+
 import org.apache.hyracks.api.job.JobId;
 import org.apache.hyracks.control.cc.ClusterControllerService;
 import org.apache.hyracks.control.cc.web.util.IJSONOutputFunction;
 import org.apache.hyracks.control.cc.work.GetActivityClusterGraphJSONWork;
 import org.apache.hyracks.control.cc.work.GetJobRunJSONWork;
 import org.apache.hyracks.control.cc.work.GetJobSummariesJSONWork;
-import org.json.JSONObject;
 
 public class JobsRESTAPIFunction implements IJSONOutputFunction {
     private ClusterControllerService ccs;
@@ -59,10 +60,6 @@ public class JobsRESTAPIFunction implements IJSONOutputFunction {
                     GetJobRunJSONWork gjre = new GetJobRunJSONWork(ccs, jobId);
                     ccs.getWorkQueue().scheduleAndSync(gjre);
                     result.put("result", gjre.getJSON());
-                } else if ("job-summaries".equalsIgnoreCase(arguments[0])) { //Shown in index page of adminconsole
-                    GetJobSummariesJSONWork gjse = new GetJobSummariesJSONWork(ccs);
-                    ccs.getWorkQueue().scheduleAndSync(gjse);
-                    result.put("result", gjse.getSummaries()); /* JSONArray */
                 }
 
                 break;

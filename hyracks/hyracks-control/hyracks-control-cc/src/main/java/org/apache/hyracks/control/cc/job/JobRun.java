@@ -232,7 +232,6 @@ public class JobRun implements IJobStatusConditionVariable {
         return scheduler;
     }
 
-
     public Map<ConnectorDescriptorId, IConnectorPolicy> getConnectorPolicyMap() {
         return connectorPolicyMap;
     }
