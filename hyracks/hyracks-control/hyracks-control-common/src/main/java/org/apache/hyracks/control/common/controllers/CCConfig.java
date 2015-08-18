@@ -56,6 +56,9 @@ public class CCConfig {
     @Option(name = "-job-history-size", usage = "Limits the number of historical jobs remembered by the system to the specified value. (default: 10)")
     public int jobHistorySize = 10;
 
+    @Option(name = "-interval-to-fetch-data", usage = "TimeInterval to fetch JSON Data (in milliseconds). (default: 10000)")
+    public int dataFetchInterval = 10000;
+
     @Option(name = "-result-time-to-live", usage = "Limits the amount of time results for asynchronous jobs should be retained by the system in milliseconds. (default: 24 hours)")
     public long resultTTL = 86400000;
 
@@ -96,6 +99,8 @@ public class CCConfig {
         cList.add(String.valueOf(defaultMaxJobAttempts));
         cList.add("-job-history-size");
         cList.add(String.valueOf(jobHistorySize));
+        cList.add("-interval-to-fetch-data");
+        cList.add(String.valueOf(dataFetchInterval));
         cList.add("-result-time-to-live");
         cList.add(String.valueOf(resultTTL));
         cList.add("-result-sweep-threshold");
