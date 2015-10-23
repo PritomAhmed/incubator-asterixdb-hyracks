@@ -176,6 +176,7 @@
            <exclude>**/.classpath</exclude>
            <exclude>**/.project</exclude>
            <exclude>**/stylesheet/json-highlight.css</exclude>
+           <exclude>**/stylesheet/json.human.css</exclude>
       </excludes>
         </configuration>
       </plugin>
