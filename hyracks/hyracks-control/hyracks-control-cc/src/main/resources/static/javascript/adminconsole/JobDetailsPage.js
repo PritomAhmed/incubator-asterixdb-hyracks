@@ -17,6 +17,8 @@
  * under the License.
  */
  $(function() {
+    $('#tabs').tabs();
+
     var jobSpecDAG = new Graphs.DAG();
     var jobSpecRenderer;
 
