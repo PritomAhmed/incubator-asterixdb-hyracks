@@ -96,7 +96,6 @@
     }
 
     function init() {
-//        fetchJobSpecification();
           fetchJobActivityGraph();
     }
 
